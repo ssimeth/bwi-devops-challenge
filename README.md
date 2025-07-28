@@ -109,14 +109,6 @@ Die GitHub Actions Pipeline umfasst:
 - ELK Stack für Logging
 - Jaeger für Distributed Tracing
 
-## Dokumentation
-
-Weitere Dokumentation finden Sie in:
-- [Architecture Decision Records](docs/adr/)
-- [Deployment Guide](docs/deployment.md)
-- [Security Guide](docs/security.md)
-- [API Documentation](docs/api.md)
-
 ## Kontakt
 
 Entwickelt für die BWI GmbH - Software Data Solutions & Analytics Team
