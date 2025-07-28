@@ -12,6 +12,11 @@ env:
   IMAGE_NAME_BACKEND: ghcr.io/bwi/kv-infosys-backend
   IMAGE_NAME_FRONTEND: ghcr.io/bwi/kv-infosys-frontend
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   # ===========================================
   # VALIDATE & LINT
