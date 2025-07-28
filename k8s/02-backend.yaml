@@ -171,21 +171,4 @@ spec:
     targetPort: 3000
     name: http
   type: ClusterIP
-
-# ---
-# # Service Monitor für Prometheus (optional - requires Prometheus Operator)
-# apiVersion: monitoring.coreos.com/v1
-# kind: ServiceMonitor
-# metadata:
-#   name: backend-monitor
-#   namespace: kv-infosys
-#   labels:
-#     app: backend
-# spec:
-#   selector:
-#     matchLabels:
-#       app: backend
-#   endpoints:
-#   - port: http
-#     path: /metrics
-#     interval: 30s
+---
