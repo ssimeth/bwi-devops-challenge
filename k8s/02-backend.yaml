@@ -1,5 +1,5 @@
 # ===========================================
-# BACKEND - NODE.JS API
+# BACKEND - SIMPLE NODE.JS API (DEMO)
 # ===========================================
 apiVersion: v1
 kind: ConfigMap
@@ -9,24 +9,6 @@ metadata:
 data:
   NODE_ENV: "production"
   PORT: "3000"
-  DB_HOST: "postgres-service"
-  DB_PORT: "5432"
-  API_VERSION: "v1"
-  LOG_LEVEL: "info"
-  CORS_ORIGIN: "https://kv-infosys.bwi.de"
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: backend-secret
-  namespace: kv-infosys
-type: Opaque
-data:
-  # echo -n 'jwt-secret-key-for-kvinfosys-2024!' | base64
-  JWT_SECRET: and0LXNlY3JldC1rZXktZm9yLWt2aW5mb3N5cy0yMDI0IQ==
-  # echo -n 'api-key-for-external-geo-services' | base64
-  GEO_API_KEY: YXBpLWtleS1mb3ItZXh0ZXJuYWwtZ2VvLXNlcnZpY2Vz
 
 ---
 apiVersion: apps/v1
@@ -38,12 +20,12 @@ metadata:
     app: backend
     tier: application
 spec:
-  replicas: 3
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: backend
@@ -80,56 +62,20 @@ spec:
             configMapKeyRef:
               name: backend-config
               key: PORT
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: DB_HOST
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: DB_PORT
-        - name: DB_NAME
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: database
-        - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: username
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: password
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: backend-secret
-              key: JWT_SECRET
-        - name: GEO_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: backend-secret
-              key: GEO_API_KEY
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "256Mi"
+            cpu: "200m"
         livenessProbe:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 30
+          initialDelaySeconds: 15
           periodSeconds: 10
           timeoutSeconds: 5
-          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /ready
@@ -137,7 +83,6 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 3
-          failureThreshold: 3
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -147,12 +92,8 @@ spec:
         volumeMounts:
         - name: tmp
           mountPath: /tmp
-        - name: app-logs
-          mountPath: /app/logs
       volumes:
       - name: tmp
-        emptyDir: {}
-      - name: app-logs
         emptyDir: {}
 
 ---
@@ -171,4 +112,3 @@ spec:
     targetPort: 3000
     name: http
   type: ClusterIP
----

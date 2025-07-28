@@ -38,7 +38,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copy built React app from builder stage
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Copy nginx configuration (will be overridden by ConfigMap in K8s)
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create nginx directories with proper permissions
@@ -52,17 +52,9 @@ RUN mkdir -p /var/cache/nginx/client_temp && \
     chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /usr/share/nginx/html
 
-# Build arguments for metadata
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-
 # Labels for metadata
 LABEL org.opencontainers.image.title="KVInfoSys Frontend" \
-      org.opencontainers.image.description="Frontend for KVInfoSysBund" \
-      org.opencontainers.image.version=$VERSION \
-      org.opencontainers.image.created=$BUILD_DATE \
-      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.description="Simple Frontend for BWI DevOps Demo" \
       org.opencontainers.image.vendor="BWI GmbH"
 
 # Switch to non-root user

@@ -35,29 +35,17 @@ RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 # Copy built application from builder stage
-COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
-
-# Create logs directory
-RUN mkdir -p /app/logs && chown nodejs:nodejs /app/logs
-
-# Build arguments for metadata
-ARG NODE_ENV=production
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
+COPY --from=builder --chown=nodejs:nodejs /app/index.js ./
 
 # Set environment
-ENV NODE_ENV=$NODE_ENV
+ENV NODE_ENV=production
 ENV PORT=3000
 
 # Labels for metadata
 LABEL org.opencontainers.image.title="KVInfoSys Backend" \
-      org.opencontainers.image.description="Backend API for KVInfoSysBund" \
-      org.opencontainers.image.version=$VERSION \
-      org.opencontainers.image.created=$BUILD_DATE \
-      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.description="Simple Backend for BWI DevOps Demo" \
       org.opencontainers.image.vendor="BWI GmbH"
 
 # Switch to non-root user
@@ -74,4 +62,4 @@ EXPOSE 3000
 ENTRYPOINT ["dumb-init", "--"]
 
 # Start application
-CMD ["node", "dist/index.js"]
+CMD ["node", "index.js"]
