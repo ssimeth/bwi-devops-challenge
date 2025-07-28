@@ -1,0 +1,168 @@
+# ===========================================
+# NAMESPACE
+# ===========================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kv-infosys
+  labels:
+    name: kv-infosys
+    environment: production
+    project: bwi-kv-infosys
+
+---
+# ===========================================
+# DATABASE - POSTGRESQL + POSTGIS
+# ===========================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: kv-infosys
+type: Opaque
+data:
+  # echo -n 'kvinfosys_user' | base64
+  username: a3ZpbmZvc3lzX3VzZXI=
+  # echo -n 'secure_password_123!' | base64
+  password: c2VjdXJlX3Bhc3N3b3JkXzEyMyE=
+  # echo -n 'kvinfosys_db' | base64
+  database: a3ZpbmZvc3lzX2Ri
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: kv-infosys
+data:
+  POSTGRES_DB: kvinfosys_db
+  POSTGRES_USER: kvinfosys_user
+  PGDATA: /var/lib/postgresql/data/pgdata
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: kv-infosys
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: csi-disk-ssd  # OTC specific storage class
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: kv-infosys
+  labels:
+    app: postgres
+    tier: database
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate  # For database with persistent storage
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+        tier: database
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsGroup: 999
+      containers:
+      - name: postgres
+        image: postgis/postgis:15-3.3
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: PGDATA
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: PGDATA
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - kvinfosys_user
+            - -d
+            - kvinfosys_db
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - kvinfosys_user
+            - -d
+            - kvinfosys_db
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: kv-infosys
+  labels:
+    app: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+    name: postgres
+  type: ClusterIP

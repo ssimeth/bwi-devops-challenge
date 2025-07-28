@@ -1,0 +1,265 @@
+# ==============================================
+# BWI DevOps Challenge - .gitignore
+# ==============================================
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE and Editor Files
+.vscode/
+.idea/
+.serena/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ==============================================
+# TERRAFORM - CRITICAL SECURITY
+# ==============================================
+
+# Terraform state files (contain sensitive data)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform variable files (contain secrets!)
+terraform.tfvars
+*.tfvars
+*.tfvars.json
+
+# Terraform directories
+.terraform/
+.terraform.lock.hcl
+
+# Terraform crash log files
+crash.log
+crash.*.log
+
+# Terraform plan files
+*.tfplan
+tfplan
+
+# ==============================================
+# KUBERNETES & SECRETS
+# ==============================================
+
+# Kubernetes config files (contain cluster access)
+kubeconfig
+.kubeconfig
+*kubeconfig*
+
+# Kubernetes secret files
+*-secret.yaml
+*secret*.yaml
+
+# Helm charts dependencies
+charts/*/charts/
+charts/*/requirements.lock
+
+# ==============================================
+# NODE.JS / NPM
+# ==============================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# ESLint cache
+.eslintcache
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# ==============================================
+# DOCKER
+# ==============================================
+
+# Docker build cache
+.dockerignore
+
+# ==============================================
+# ENVIRONMENT & SECRETS
+# ==============================================
+
+# Environment files (contain sensitive data)
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+
+# Secret files
+secrets/
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_rsa.pub
+*.pem
+
+# ==============================================
+# APPLICATION SPECIFIC
+# ==============================================
+
+# Build outputs
+build/
+dist/
+out/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Runtime files
+*.pid
+.backend.pid
+.frontend.pid
+
+# ==============================================
+# DEVELOPMENT TOOLS
+# ==============================================
+
+# Local development containers
+docker-compose.override.yml
+
+# Backup files
+*.bak
+*.backup
+
+# Test files
+.coverage
+test-results/
+
+# ==============================================
+# CLOUD PROVIDER SPECIFIC
+# ==============================================
+
+# AWS
+.aws/
+
+# GCP
+.gcp/
+service-account.json
+*.json
+
+# Azure
+.azure/
+
+# Open Telekom Cloud
+.otc/
+otc-config.json
+
+# ==============================================
+# CI/CD ARTIFACTS
+# ==============================================
+
+# Pipeline artifacts
+artifacts/
+reports/
+
+# Security scan results
+*.sarif
+trivy-results.json
+snyk-results.json
+
+# ==============================================
+# MONITORING & OBSERVABILITY
+# ==============================================
+
+# Prometheus data
+prometheus-data/
+
+# Grafana data
+grafana-data/
+
+# Application metrics
+metrics/
+
+# ==============================================
+# BACKUP FILES
+# ==============================================
+
+# Database backups
+*.sql
+*.dump
+backups/
+
+# Configuration backups
+*.conf.bak
+*.yaml.bak
+
+# ==============================================
+# DOCUMENTATION TEMP FILES
+# ==============================================
+
+# Generated documentation
+docs/generated/
+*.pdf
+
+# Markdown temp files
+*.md.backup
+
+# ==============================================
+# CUSTOM IGNORES
+# ==============================================
+
+# Project specific temporary files
+PROJECT-TEMP-*
+TODO-*
+NOTES-*
+
+# Local testing
+test-deployment/
+local-testing/
+
+# Scripts that might contain secrets
+*-local.sh
+setup-local-*
