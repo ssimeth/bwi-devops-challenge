@@ -24,9 +24,9 @@ RUN npm run build
 # ===========================================
 FROM nginx:1.25-alpine AS production
 
-# Security: Create non-root user
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S nginx -u 1001 -G nginx
+# Security: Use existing nginx user or create if not exists
+RUN if ! getent group nginx >/dev/null; then addgroup -g 1001 -S nginx; fi && \
+    if ! getent passwd nginx >/dev/null; then adduser -S nginx -u 1001 -G nginx; fi
 
 # Install security updates
 RUN apk update && apk upgrade && \
