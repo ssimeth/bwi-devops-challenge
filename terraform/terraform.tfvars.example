@@ -1,0 +1,44 @@
+# ==============================================
+# TERRAFORM VARIABLES EXAMPLE
+# ==============================================
+# Copy this file to terraform.tfvars and fill in your values
+
+# Open Telekom Cloud Configuration
+otc_cloud       = "https://iam.eu-de.otc.t-systems.com:443/v3"
+otc_region      = "eu-de"
+otc_tenant_id   = "your-tenant-id-here"
+otc_access_key  = "your-access-key-here"
+otc_secret_key  = "your-secret-key-here"
+otc_domain_name = "your-domain-name-here"
+
+# Project Configuration
+project_name = "kv-infosys"
+environment  = "prod"
+
+# Network Configuration
+vpc_cidr = "10.0.0.0/16"
+subnet_cidrs = [
+  "10.0.1.0/24",
+  "10.0.2.0/24", 
+  "10.0.3.0/24"
+]
+
+# Kubernetes Cluster Configuration
+node_count     = 3
+master_flavor  = "cce.s2.small" # small-scale HA cluster (up to 50 nodes)
+node_flavor    = "s3.xlarge.2"  # 4 vCPU, 8GB RAM
+
+# Availability Zones
+availability_zones = [
+  "eu-de-01",
+  "eu-de-02", 
+  "eu-de-03"
+]
+
+# Resource Tags
+tags = {
+  Project     = "BWI-KVInfoSys"
+  Environment = "Production"
+  Owner       = "BWI-DevOps-Team"
+  ManagedBy   = "Terraform"
+}
