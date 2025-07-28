@@ -9,8 +9,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_BACKEND: ghcr.io/bwi/kv-infosys-backend
-  IMAGE_NAME_FRONTEND: ghcr.io/bwi/kv-infosys-frontend
+  IMAGE_NAME_BACKEND: ghcr.io/ssimeth/bwi-devops-challenge/backend
+  IMAGE_NAME_FRONTEND: ghcr.io/ssimeth/bwi-devops-challenge/frontend
 
 permissions:
   contents: read
