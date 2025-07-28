@@ -8,13 +8,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with error checking
+RUN npm ci && npm list --depth=0
 
 # Copy source code
 COPY . .
 
-# Build production bundle
+# Verify package.json and build
+RUN test -f package.json && npm run --silent || (echo "Available scripts:" && npm run)
 ENV NODE_ENV=production
 RUN npm run build
 
