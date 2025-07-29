@@ -29,18 +29,18 @@ Dieses Projekt demonstriert eine vollständige DevOps-Lösung für das **KVInfoS
 ## Projektstruktur
 
 ```
-├── .github/workflows/     # GitHub Actions Pipelines
+├── .github/workflows/    # GitHub Actions Pipelines
 ├── terraform/            # Infrastructure as Code
-├── k8s/                 # Kubernetes Manifeste
-├── backend/             # Node.js API
-├── frontend/            # React Application
-├── docs/               # Dokumentation
-└── scripts/           # Helper Scripts
+├── k8s/                  # Kubernetes Manifeste
+├── backend/              # Node.js API
+├── frontend/             # React Application
+├── docs/                 # Dokumentation
+└── scripts/              # Helper Scripts
 ```
 
 ### Voraussetzungen
 
-- Docker & Docker Compose
+- Docker
 - kubectl
 - terraform
 - Node.js 18+
@@ -78,9 +78,11 @@ Die GitHub Actions Pipeline umfasst:
 
 ## Roadmap
 
-- Prometheus Metriken
+- Ingress mit automatischer Zertifikatsverwaltung (ACME + cert-manger)
+- Slack Notification
+- Prometheus Monitoring Stack
 - Grafana Dashboards
 - ELK Stack für Logging
 - Istio Service Mesh
 - Jaeger für Distributed Tracing
-- Ingress mit automatischer Zertifikatsverwaltung (ACME + cert-manger)
+- Neuvector für Lifecycle Security
