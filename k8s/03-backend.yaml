@@ -54,15 +54,7 @@ spec:
         env:
         - name: NODE_ENV
           value: "production"
-        - name: PORT
-          value: "3000"
-        - name: DATABASE_URL
-          value: "postgresql://kvinfosys_user:secure_password_123!@postgres-service:5432/kvinfosys_db"
-        - name: PORT
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: PORT
+        #TODO: DB Connection String
         resources:
           requests:
             memory: "128Mi"
