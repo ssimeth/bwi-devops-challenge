@@ -272,9 +272,12 @@ jobs:
       run: |
         export KUBECONFIG=./kubeconfig
         
-        # Update image tags
-        sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/backend:latest|${{ needs.build.outputs.backend-image }}|g" k8s/*.yaml
-        sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/frontend:latest|${{ needs.build.outputs.frontend-image }}|g" k8s/*.yaml
+        # Update image tags - use SHA tag (main-<sha>)
+        BACKEND_IMAGE=$(echo "${{ needs.build.outputs.backend-image }}" | grep "main-" | head -n1)
+        FRONTEND_IMAGE=$(echo "${{ needs.build.outputs.frontend-image }}" | grep "main-" | head -n1)
+        
+        sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/backend:latest|${BACKEND_IMAGE}|g" k8s/*.yaml
+        sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/frontend:latest|${FRONTEND_IMAGE}|g" k8s/*.yaml
         
         # Apply manifests
         kubectl apply -f k8s/
