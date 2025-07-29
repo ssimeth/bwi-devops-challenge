@@ -108,8 +108,9 @@ coverage/
 # DOCKER
 # ==============================================
 
-# Docker build cache
-.dockerignore
+# Docker build cache (not .dockerignore - that should be committed!)
+.docker/
+
 
 # ==============================================
 # ENVIRONMENT & SECRETS
