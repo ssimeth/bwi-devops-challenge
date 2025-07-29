@@ -78,6 +78,7 @@ Die GitHub Actions Pipeline umfasst:
 
 ## Roadmap
 
+- Datenbank CLuster für HA
 - Ingress mit automatischer Zertifikatsverwaltung (ACME + cert-manger)
 - Slack Notification
 - Prometheus Monitoring Stack
