@@ -276,6 +276,15 @@ jobs:
       run: |
         export KUBECONFIG=./kubeconfig
         
+        # Create ImagePullSecret for GHCR
+        kubectl create secret docker-registry ghcr-secret \
+          --docker-server=ghcr.io \
+          --docker-username=${{ github.actor }} \
+          --docker-password=${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }} \
+          --docker-email=${{ github.actor }}@users.noreply.github.com \
+          -n kv-infosys \
+          --dry-run=client -o yaml | kubectl apply -f -
+        
         # Update image tags - use SHA tag (main-<sha>)
         BACKEND_IMAGE=$(echo "${{ needs.build.outputs.backend-image }}" | grep "main-" | head -n1)
         FRONTEND_IMAGE=$(echo "${{ needs.build.outputs.frontend-image }}" | grep "main-" | head -n1)

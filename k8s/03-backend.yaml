@@ -92,6 +92,8 @@ spec:
         volumeMounts:
         - name: tmp
           mountPath: /tmp
+      imagePullSecrets:
+      - name: ghcr-secret
       volumes:
       - name: tmp
         emptyDir: {}

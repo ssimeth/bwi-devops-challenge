@@ -173,6 +173,8 @@ spec:
           capabilities:
             drop:
             - ALL
+      imagePullSecrets:
+      - name: ghcr-secret
       volumes:
       - name: nginx-config
         configMap:
