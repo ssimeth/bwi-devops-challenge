@@ -130,7 +130,7 @@ spec:
         fsGroup: 101
       containers:
       - name: frontend
-        image: ghcr.io/bwi/kv-infosys-frontend:latest
+        image: ghcr.io/ssimeth/bwi-devops-challenge/frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

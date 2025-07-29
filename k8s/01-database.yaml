@@ -1,30 +1,28 @@
 # ===========================================
-# DEMO DATABASE (OPTIONAL - NOT REQUIRED)
+# DEMO DATABASE
 # ===========================================
-# Commented out for simple demo - focus on deployment, not application
 
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: postgres-secret
-#   namespace: kv-infosys
-# type: Opaque
-# data:
-#   username: a3ZpbmZvc3lzX3VzZXI=
-#   password: c2VjdXJlX3Bhc3N3b3JkXzEyMyE=
-#   database: a3ZpbmZvc3lzX2Ri
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: kv-infosys
+type: Opaque
+data:
+  username: a3ZpbmZvc3lzX3VzZXI=
+  password: c2VjdXJlX3Bhc3N3b3JkXzEyMyE=
+  database: a3ZpbmZvc3lzX2Ri
+  #TODO: password from secret
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: kv-infosys
+data:
+  POSTGRES_DB: kvinfosys_db
+  POSTGRES_USER: kvinfosys_user
+  PGDATA: /var/lib/postgresql/data/pgdata
 
-# ---
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: postgres-config
-#   namespace: kv-infosys
-# data:
-#   POSTGRES_DB: kvinfosys_db
-#   POSTGRES_USER: kvinfosys_user
-#   PGDATA: /var/lib/postgresql/data/pgdata
+---
 
-# ---
-# Database deployment commented out for simple demo
-# Uncomment for full production deployment

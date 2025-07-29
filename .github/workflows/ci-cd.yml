@@ -146,6 +146,7 @@ jobs:
       with:
         sarif_file: 'trivy-results.sarif'
 
+    #TODO: comment out
     - name: Run Snyk security scan
       continue-on-error: true 
       uses: snyk/actions/node@master

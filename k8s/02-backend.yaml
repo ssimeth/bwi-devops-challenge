@@ -46,7 +46,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: backend
-        image: ghcr.io/bwi/kv-infosys-backend:latest
+        image: ghcr.io/ssimeth/bwi-devops-challenge/backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
