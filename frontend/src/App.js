@@ -70,16 +70,6 @@ function App() {
           </div>
         )}
       </div>
-
-      <footer style={{ 
-        textAlign: 'center', 
-        marginTop: '30px', 
-        color: '#95a5a6',
-        fontSize: '12px'
-      }}>
-        <p>BWI GmbH - Software Data Solutions & Analytics</p>
-        <p>Infrastructure as Code • Container Orchestration • Cloud Native</p>
-      </footer>
     </div>
   );
 }

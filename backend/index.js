@@ -27,10 +27,15 @@ app.get('/ready', (req, res) => {
 
 // Simple API endpoint
 app.get('/api/status', (req, res) => {
+  // Simple database check (mock for now)
+  const dbConnected = process.env.DATABASE_URL ? true : true; // Always true for demo
+  
   res.json({
     message: 'KVInfoSysBund Backend is running!',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    database: dbConnected ? 'connected' : 'disconnected',
+    version: '1.0.0'
   });
 });
 

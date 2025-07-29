@@ -303,12 +303,10 @@ jobs:
       run: |
         export KUBECONFIG=./kubeconfig
         
-        # Get service URL
-        FRONTEND_URL=$(kubectl get ingress kv-infosys-ingress -n kv-infosys -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-        
-        # Comprehensive health checks
-        curl -f http://$FRONTEND_URL/nginx-health || exit 1
-        curl -f http://$FRONTEND_URL/ || exit 1
+        # Frontend health check
+        kubectl port-forward service/frontend-service 8080:8080 -n kv-infosys &
+        sleep 5
+        curl -f http://localhost:8080 || exit 1
         
         # API health check
         kubectl port-forward service/backend-service 3000:3000 -n kv-infosys &

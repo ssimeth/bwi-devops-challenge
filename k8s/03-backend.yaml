@@ -53,10 +53,11 @@ spec:
           name: http
         env:
         - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        - name: DATABASE_URL
+          value: "postgresql://kvinfosys_user:secure_password_123!@postgres-service:5432/kvinfosys_db"
         - name: PORT
           valueFrom:
             configMapKeyRef:
