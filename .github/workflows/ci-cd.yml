@@ -263,10 +263,14 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Configure kubeconfig #TODO: get kubeconfig from Terraform output
+    - name: Configure kubeconfig
       run: |
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
         export KUBECONFIG=./kubeconfig
+        
+        # Test connection
+        kubectl version --client
+        kubectl cluster-info
 
     - name: Deploy to Kubernetes
       run: |

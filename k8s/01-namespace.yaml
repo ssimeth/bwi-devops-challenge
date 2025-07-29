@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kv-infosys
+  labels:
+    name: kv-infosys
+    app: kv-infosys
+    environment: production
