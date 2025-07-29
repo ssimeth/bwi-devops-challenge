@@ -1,3 +1,5 @@
+[![CI/CD Pipeline](https://github.com/ssimeth/bwi-devops-challenge/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/ssimeth/bwi-devops-challenge/actions/workflows/ci-cd.yml)
+
 # BWI DevOps Challenge - KVInfoSysBund
 
 ## Projektübersicht
@@ -18,7 +20,7 @@ Dieses Projekt demonstriert eine vollständige DevOps-Lösung für das **KVInfoS
 
 - **Frontend**: React.js mit TypeScript, served by nginx
 - **Backend**: Node.js mit Express und TypeScript
-- **Database**: PostgreSQL mit PostGIS für Geodaten
+- **Database**: PostgreSQL (PostGIS für Geodaten)
 - **Container**: Docker
 - **Orchestrierung**: Kubernetes
 - **Infrastructure**: Terraform (Open Telekom Cloud)
@@ -36,8 +38,6 @@ Dieses Projekt demonstriert eine vollständige DevOps-Lösung für das **KVInfoS
 └── scripts/           # Helper Scripts
 ```
 
-## Quick Start
-
 ### Voraussetzungen
 
 - Docker & Docker Compose
@@ -45,27 +45,6 @@ Dieses Projekt demonstriert eine vollständige DevOps-Lösung für das **KVInfoS
 - terraform
 - Node.js 18+
 - Open Telekom Cloud Account
-
-### Lokale Entwicklung
-
-```bash
-# Repository klonen
-git clone <repository-url>
-cd bwi-devops-challenge
-
-# Backend starten
-cd backend
-npm install
-npm run dev
-
-# Frontend starten (neues Terminal)
-cd frontend
-npm install
-npm start
-
-# Database (Docker)
-docker-compose up postgres
-```
 
 ### Infrastructure Deployment
 
@@ -77,11 +56,8 @@ terraform init
 terraform plan
 terraform apply
 
-# Kubernetes Cluster verbinden
-# (wird von Terraform output bereitgestellt)
+# Kubeconfig wird von Terraform output bereitgestellt
 
-# Application deployen
-kubectl apply -f k8s/
 ```
 
 ## CI/CD Pipeline
@@ -92,23 +68,19 @@ Die GitHub Actions Pipeline umfasst:
 2. **Build**: Container Images erstellen
 3. **Test**: Integration Tests
 4. **Deploy**: Automatisches Deployment
-5. **Monitor**: Health Checks und Notifications
+5. **Monitor**: Health Checks
 
 ## Security
 
-- Container Security Scanning
-- Kubernetes Network Policies
+- Container Security Scanning 
+- Kubernetes Network Policies (TODO)
 - Secrets Management
-- RBAC Implementation
-- BSI Grundschutz Compliance
 
-## Monitoring
+## Roadmap
 
 - Prometheus Metriken
 - Grafana Dashboards
 - ELK Stack für Logging
+- Istio Service Mesh
 - Jaeger für Distributed Tracing
-
-## Kontakt
-
-Entwickelt für die BWI GmbH - Software Data Solutions & Analytics Team
+- Ingress mit automatischer Zertifikatsverwaltung (ACME + cert-manger)
