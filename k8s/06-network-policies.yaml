@@ -19,9 +19,11 @@ spec:
       port: 53
     - protocol: TCP
       port: 53
-  # Allow HTTPS for container registry access
+  # Allow HTTP
   - to: []
     ports:
+    - protocol: TCP
+      port: 80
     - protocol: TCP
       port: 443
 
