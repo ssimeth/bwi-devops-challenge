@@ -11,6 +11,19 @@ spec:
   policyTypes:
   - Ingress
   - Egress
+  egress:
+  # Allow DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  # Allow HTTPS for container registry access
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
 
 ---
 # Allow frontend to backend communication

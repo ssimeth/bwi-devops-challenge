@@ -38,7 +38,7 @@ resource "opentelekomcloud_cce_node_pool_v3" "main" {
 
   # Scaling configuration
   scale_enable             = true
-  min_node_count           = 1
+  min_node_count           = 2
   max_node_count           = 10
   scale_down_cooldown_time = 100
   priority                 = 1
