@@ -20,7 +20,7 @@ function App() {
   return (
     <div style={{ 
       fontFamily: 'Arial, sans-serif', 
-      maxWidth: '800px', 
+      maxWidth: '600px', 
       margin: '50px auto', 
       padding: '20px',
       backgroundColor: '#f5f5f5',
@@ -39,85 +39,41 @@ function App() {
       </header>
 
       <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-        gap: '20px',
-        marginBottom: '30px'
-      }}>
-        <div style={{ 
-          backgroundColor: 'white', 
-          padding: '20px', 
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <h3 style={{ color: '#34495e', marginTop: '0' }}>🖥️ System Status</h3>
-          <p><strong>Frontend:</strong> ✅ Running</p>
-          <p><strong>Backend:</strong> {backendStatus === 'Connected' ? '✅' : '❌'} {backendStatus}</p>
-          <p><strong>Database:</strong> ✅ Connected</p>
-          <p><strong>Environment:</strong> {backendInfo?.environment || 'Production'}</p>
-        </div>
-
-        <div style={{ 
-          backgroundColor: 'white', 
-          padding: '20px', 
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <h3 style={{ color: '#34495e', marginTop: '0' }}>🚀 DevOps Features</h3>
-          <ul style={{ listStyle: 'none', padding: '0' }}>
-            <li>✅ Kubernetes Deployment</li>
-            <li>✅ Docker Containers</li>
-            <li>✅ CI/CD Pipeline</li>
-            <li>✅ Health Monitoring</li>
-            <li>✅ Auto-Scaling</li>
-            <li>✅ Security Policies</li>
-          </ul>
-        </div>
-
-        <div style={{ 
-          backgroundColor: 'white', 
-          padding: '20px', 
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <h3 style={{ color: '#34495e', marginTop: '0' }}>🗺️ Geo-Features</h3>
-          <ul style={{ listStyle: 'none', padding: '0' }}>
-            <li>🌍 Crisis Management</li>
-            <li>📍 Geographic Information</li>
-            <li>📊 Real-time Data</li>
-            <li>🔄 Multi-Agency Collaboration</li>
-            <li>📱 Mobile Response</li>
-            <li>🛡️ Secure Communications</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style={{ 
         backgroundColor: 'white', 
-        padding: '20px', 
+        padding: '30px', 
         borderRadius: '8px',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         textAlign: 'center'
       }}>
-        <h3 style={{ color: '#34495e', marginTop: '0' }}>📋 Backend Response</h3>
-        {backendInfo ? (
-          <pre style={{ 
-            backgroundColor: '#ecf0f1', 
-            padding: '15px', 
-            borderRadius: '5px',
-            textAlign: 'left',
-            overflow: 'auto'
-          }}>
-            {JSON.stringify(backendInfo, null, 2)}
-          </pre>
-        ) : (
-          <p style={{ color: '#7f8c8d' }}>No backend connection</p>
+        <h3 style={{ color: '#34495e', marginTop: '0', marginBottom: '20px' }}>🖥️ System Status</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
+          <div>
+            <strong>Frontend:</strong><br/>
+            <span style={{ color: '#27ae60', fontSize: '18px' }}>✅ Running</span>
+          </div>
+          <div>
+            <strong>Backend:</strong><br/>
+            <span style={{ color: backendStatus === 'Connected' ? '#27ae60' : '#e74c3c', fontSize: '18px' }}>
+              {backendStatus === 'Connected' ? '✅' : '❌'} {backendStatus}
+            </span>
+          </div>
+          <div>
+            <strong>Database:</strong><br/>
+            <span style={{ color: '#27ae60', fontSize: '18px' }}>✅ Connected</span>
+          </div>
+        </div>
+        
+        {backendInfo && (
+          <div style={{ marginTop: '20px' }}>
+            <p><strong>Environment:</strong> {backendInfo.environment || 'Production'}</p>
+            <p><strong>Version:</strong> {backendInfo.version || '1.0.0'}</p>
+          </div>
         )}
       </div>
 
       <footer style={{ 
         textAlign: 'center', 
-        marginTop: '40px', 
+        marginTop: '30px', 
         color: '#95a5a6',
         fontSize: '12px'
       }}>
