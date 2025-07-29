@@ -8,10 +8,10 @@ metadata:
   name: postgres-secret
   namespace: kv-infosys
 type: Opaque
-data:
-  username: a3ZpbmZvc3lzX3VzZXI=
-  password: c2VjdXJlX3Bhc3N3b3JkXzEyMyE=
-  database: a3ZpbmZvc3lzX2Ri
+stringData:
+  username: kvinfosys_user
+  password: "${DB_PASSWORD}"
+  database: kvinfosys_db
   #TODO: password from secret
 ---
 apiVersion: v1
@@ -71,6 +71,30 @@ spec:
         ports:
         - containerPort: 5432
           name: postgres
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - kvinfosys_user
+            - -d
+            - kvinfosys_db
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - kvinfosys_user
+            - -d
+            - kvinfosys_db
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
         volumeMounts:
         - name: postgres-storage
           mountPath: /var/lib/postgresql/data

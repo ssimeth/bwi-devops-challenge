@@ -292,10 +292,19 @@ jobs:
         sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/backend:latest|${BACKEND_IMAGE}|g" k8s/*.yaml
         sed -i "s|ghcr.io/ssimeth/bwi-devops-challenge/frontend:latest|${FRONTEND_IMAGE}|g" k8s/*.yaml
         
-        # Apply manifests
-        kubectl apply -f k8s/
+        # Replace DB password from secret
+        export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+        envsubst < k8s/02-database.yaml | kubectl apply -f -
         
-        # Wait for deployment
+        # Apply other manifests
+        kubectl apply -f k8s/01-namespace.yaml
+        kubectl apply -f k8s/03-backend.yaml
+        kubectl apply -f k8s/04-frontend.yaml
+        kubectl apply -f k8s/05-ingress-hpa.yaml
+        kubectl apply -f k8s/06-network-policies.yaml
+        
+        # Wait for deployments
+        kubectl rollout status deployment/postgres-deployment -n kv-infosys --timeout=300s
         kubectl rollout status deployment/backend-deployment -n kv-infosys --timeout=600s
         kubectl rollout status deployment/frontend-deployment -n kv-infosys --timeout=600s
 
@@ -303,15 +312,23 @@ jobs:
       run: |
         export KUBECONFIG=./kubeconfig
         
-        # Frontend health check
-        kubectl port-forward service/frontend-service 8080:8080 -n kv-infosys &
-        sleep 5
-        curl -f http://localhost:8080 || exit 1
+        # Database health check
+        echo "Testing database connection..."
+        kubectl exec deployment/postgres-deployment -n kv-infosys -- pg_isready -U kvinfosys_user -d kvinfosys_db
         
-        # API health check
+        # Backend health check  
+        echo "Testing backend API..."
         kubectl port-forward service/backend-service 3000:3000 -n kv-infosys &
         sleep 5
-        curl -f http://localhost:3000/health || exit 1
+        curl -f http://localhost:3000/api/status || exit 1
+        
+        # Frontend health check
+        echo "Testing frontend..."
+        kubectl port-forward service/frontend-service 8080:80 -n kv-infosys &
+        sleep 5
+        curl -f http://localhost:8080/ || exit 1
+        
+        echo "All health checks passed!"
 
     #TODO: Uncomment when Slack integration is set up
     # - name: Notify deployment success
