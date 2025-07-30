@@ -12,7 +12,6 @@ stringData:
   username: kvinfosys_user
   password: "${DB_PASSWORD}"
   database: kvinfosys_db
-  #TODO: password from secret
 ---
 apiVersion: v1
 kind: ConfigMap
